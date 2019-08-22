@@ -30,6 +30,7 @@ public:
     int getScore();
     pair<int, int> getApple();
     string getSelf();
+    string getOther();
     string getStatus();
 };
 

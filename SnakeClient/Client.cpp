@@ -75,6 +75,13 @@ string Client::getSelf() {
     return string(s);
 }
 
+string Client::getOther() {
+    sendToServer("OTHER");
+    char s[256];
+    recv(sock, s, 256, MSG_WAITALL);
+    return string(s);
+}
+
 string Client::getStatus() {
     sendToServer("STATUS");
     char s[64];

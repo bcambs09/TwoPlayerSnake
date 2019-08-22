@@ -71,8 +71,8 @@ void Server::playGame() {
     duration<double> timeSpan;
     
     // Wait for 2 players to join the game
-    std::unique_lock<std::mutex> lk(m);
-    while(!game->getPlayer1()) {
+    std::unique_lock<std::mutex> lk(gameStart);
+    while(game->inactive()) {
         cv.wait(lk);
     }
     lk.unlock();
@@ -86,16 +86,20 @@ void Server::playGame() {
         sleep(timeSpan.count());
         lastTime = high_resolution_clock::now();
         
-        if(game->inactive()) {
-            // Wait for 2 players to join the game
-            std::unique_lock<std::mutex> lk(m);
-            while(!game->getPlayer1()) {
-                cv.wait(lk);
-            }
-            lk.unlock();
+
+        std::unique_lock<std::mutex> lk(gameStart);
+        while(game->inactive()) {
+            cv.wait(lk);
         }
+        lk.unlock();
         
         game->playFrame();
+        
+        Game::GameStatus st = game->getStatus();
+        if (st == Game::P1_WIN || st == Game::P2_WIN || st == Game::TIE) {
+            usleep(5000000);
+            game->reset();
+        }
     }
 }
 
@@ -145,6 +149,9 @@ void Server::respondToMessage(const char* msg, int playerNum, int sock) {
         sendInteger(game->getHeight(), sock);
     } else if (!strcmp(msg, "SELF")) {
         sendSnake(playerNum, sock);
+    } else if (!strcmp(msg, "OTHER")) {
+        int snakeNum = playerNum == 1 ? 2 : 1;
+        sendSnake(snakeNum, sock);
     } else if (!strcmp(msg, "DIRECTION")) {
         int dir = game->getPlayer(playerNum)->direction;
         sendInteger(dir, sock);
@@ -174,9 +181,15 @@ void Server::sendString(const string& str, int sock) {
 
 void Server::sendSnake(int snakeNum, int sock) {
     SnakePlayer* snake = game->getPlayer(snakeNum);
-    const char* str = snake->getBody();
-    send(sock, str, 256, 0);
-    free((void*) str);
+    if (snake) {
+        const char* str = snake->getBody();
+        send(sock, str, 256, 0);
+        free((void*) str);
+    } else {
+        char temp[256];
+        temp[0] = '\0';
+        send(sock, temp, 256, 0);
+    }
 }
 
 void Server::sendApple(int sock) {

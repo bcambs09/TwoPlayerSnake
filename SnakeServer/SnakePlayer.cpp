@@ -27,6 +27,15 @@ void SnakePlayer::move() {
     popBack();
 }
 
+bool SnakePlayer::onSnake(Point p) {
+    for (int i = 0; i < body.size(); ++i) {
+        if (compPoint(p, body[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Point SnakePlayer::nextSpot() {
     Point newPoint = body.front();
     if (direction == UP) {

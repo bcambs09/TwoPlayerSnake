@@ -10,6 +10,7 @@
 
 Game* game = nullptr;
 std::mutex m;
+std::mutex gameStart;
 std::condition_variable cv;
 
 void InitGame() {

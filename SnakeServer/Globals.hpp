@@ -15,6 +15,7 @@
 
 extern Game* game;
 extern std::mutex m;
+extern std::mutex gameStart;
 extern std::condition_variable cv;
 
 void InitGame();

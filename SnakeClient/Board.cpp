@@ -51,6 +51,12 @@ void Board::youLose() {
     updateBoard();
 }
 
+void Board::youTie() {
+    resetBoard(' ');
+    mvprintw(0, 0, "IT'S A TIE!");
+    updateBoard();
+}
+
 void Board::setCoord(int x, int y, char c) {
     mvaddch(y, x, c);
 }

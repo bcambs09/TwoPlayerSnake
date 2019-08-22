@@ -18,7 +18,8 @@ public:
         WAITING,
         ONGOING,
         P1_WIN,
-        P2_WIN
+        P2_WIN,
+        TIE
     };
     
 private:
@@ -35,6 +36,7 @@ public:
     int getHeight();
     int getScore(int playerNum);
     std::string getStatus(int playerNum);
+    GameStatus getStatus();
     SnakePlayer* getPlayer(int playerNum);
     SnakePlayer* getPlayer1();
     SnakePlayer* getPlayer2();
@@ -46,6 +48,7 @@ public:
     int addNewPlayer();
     void removePlayer(int playerNum);
     bool inactive();
+    void reset();
 };
 
 #endif /* Game_hpp */

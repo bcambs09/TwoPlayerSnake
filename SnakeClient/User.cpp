@@ -28,6 +28,7 @@ void User::play() {
         }
         board->resetBoard('.');
         board->addSnake(client->getSelf(), 'O');
+        board->addSnake(client->getOther(), 'X');
         pair<int, int> apple = client->getApple();
         board->addApple(apple.first, apple.second);
         board->printScore(client->getScore());

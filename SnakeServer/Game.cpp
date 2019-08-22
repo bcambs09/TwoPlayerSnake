@@ -33,29 +33,58 @@ SnakePlayer* Game::getPlayer(int playerNum) {
     return nullptr;
 }
 
+Game::GameStatus Game::getStatus() {
+    return status;
+}
+
 void Game::playFrame() {
     
     m.lock();
     Point p1Try = player1->nextSpot();
-    /*
     Point p2Try = player2->nextSpot();
     if (compPoint(p1Try, p2Try)) {
-        
-    }
-    */
-    if (!pointInBounds(p1Try, width, height)) {
-        status = P2_WIN;
+        status = TIE;
+        m.unlock();
+        return;
     }
     
     if (compPoint(p1Try, apple)) {
-        player1->addFront();
         generateApple();
         if (game->getScore(1) >= 50) {
             status = P1_WIN;
+            m.unlock();
+            return;
         }
+        player2->popBack();
+    } else if (compPoint(p2Try, apple)) {
+        generateApple();
+        if (game->getScore(2) >= 50) {
+            status = P2_WIN;
+            m.unlock();
+            return;
+        }
+        player1->popBack();
     } else {
-        player1->move();
+        player1->popBack();
+        player2->popBack();
     }
+    
+    bool p1Lost = !pointInBounds(p1Try, width, height)
+        || player1->onSnake(p1Try) || player2->onSnake(p1Try);
+    bool p2Lost = !pointInBounds(p2Try, width, height)
+        || player1->onSnake(p2Try) || player2->onSnake(p2Try);
+    
+    if (p1Lost && p2Lost) {
+        status = TIE;
+    } else if (p1Lost) {
+        status = P2_WIN;
+    } else if (p2Lost) {
+        status = P1_WIN;
+    }
+    
+    player1->addFront();
+    player2->addFront();
+    
     m.unlock();
 }
 
@@ -168,7 +197,21 @@ void Game::removePlayer(int playerNum) {
 
 bool Game::inactive() {
     m.lock();
-    bool rv = !player1 || status == P1_WIN || status == P2_WIN;
+    bool rv = !player1 || !player2 || status == P1_WIN || status == P2_WIN;
     m.unlock();
     return rv;
+}
+
+void Game::reset() {
+    m.lock();
+    if (player1) {
+        delete player1;
+        player1 = new SnakePlayer(SnakePlayer::RIGHT, {0, 0});
+    }
+    if (player2) {
+        delete player2;
+        player2 = new SnakePlayer(SnakePlayer::LEFT, {width-1, height-1});
+    }
+    status = WAITING;
+    m.unlock();
 }

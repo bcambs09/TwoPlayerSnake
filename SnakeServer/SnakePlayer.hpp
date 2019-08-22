@@ -42,6 +42,7 @@ public:
     Point nextSpot();
     const char* getBody();
     int getScore();
+    bool onSnake(Point p);
 };
 
 #endif /* SnakePlayer_hpp */

@@ -11,7 +11,15 @@
 #include "User.hpp"
 
 int main(int argc, const char * argv[]) {
-    User user("localhost", "7750");
+    string host = "localhost";
+    string port = "7750";
+    if (argc >= 2) {
+        host = string(argv[1]);
+    }
+    if (argc >= 3) {
+        port = string(argv[2]);
+    }
+    User user(host, port);
     user.play();
     return 0;
 }

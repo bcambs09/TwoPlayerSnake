@@ -25,6 +25,7 @@ public:
     void addApple(int x, int y);
     void youWin();
     void youLose();
+    void youTie();
     void printScore(int score);
     int getDirection();
 };
