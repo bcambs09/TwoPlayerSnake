@@ -159,6 +159,10 @@ string Game::getStatus(int playerNum) {
         case P2_WIN:
             return playerNum == 2 ? "WIN" : "LOSE";
             break;
+
+        case TIE:
+            return "TIE";
+            break;
             
         default:
             break;
