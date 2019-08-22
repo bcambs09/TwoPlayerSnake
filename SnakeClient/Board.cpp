@@ -124,8 +124,8 @@ void Board::printGameRules() {
    mvprintw(height + 4, 0, "I: Move Up");
    mvprintw(height + 5, 0, "K: Move Down");
    mvprintw(height + 6, 0, "HOW TO WIN:");
-   mvprintw(height + 7, 0, "    1) Your opponent runs into you or goes out of bounds.");
-   mvprintw(height + 8, 0, "    2) You've collected 5 more * than your opponent.");
+   mvprintw(height + 7, 0, "    1) Your opponent ('X') runs into you, itself, or the edge of the board.");
+   mvprintw(height + 8, 0, "    2) You ('O') collect 5 more * than your opponent.");
 }
 
 Board::~Board() {

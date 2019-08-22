@@ -195,8 +195,8 @@ SnakePlayer* Game::getPlayer2() {
 }
 
 int Game::getScore(int playerNum) {
-    int score1 = player1->getScore();
-    int score2 = player2->getScore();
+    int score1 = player1 ? player1->getScore() : 0;
+    int score2 = player2 ? player2->getScore() : 0;
     int diff = score1 - score2;
     if (playerNum == 2) {
         diff *= -1;
