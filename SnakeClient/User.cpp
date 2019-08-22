@@ -21,6 +21,7 @@ User::User(const string& addr, const string& port) {
 }
 
 void User::play() {
+    board->printGameRules();
     while(true) {
         int dir = board->getDirection();
         if (dir != -1) {

@@ -97,7 +97,7 @@ int Board::getDirection() {
 
 void Board::resetRow(int r, int c) {
     for (int i = 0; i < width; ++i) {
-        setCoord(r, i, c);
+        setCoord(i, r, c);
     }
 }
 
@@ -119,7 +119,10 @@ void Board::printGameStatus(const string& status) {
 }
 
 void Board::printGameRules() {
-    
+   mvprintw(height + 2, 0, "J: Move Left");
+   mvprintw(height + 3, 0, "L: Move Right");
+   mvprintw(height + 4, 0, "I: Move Up");
+   mvprintw(height + 5, 0, "K: Move Down");
 }
 
 Board::~Board() {
