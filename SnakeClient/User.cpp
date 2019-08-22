@@ -42,6 +42,10 @@ void User::play() {
             board->youLose();
             usleep(3000000);
             break;
+        } else if (status == "TIE") {
+            board->youTie();
+            usleep(3000000);
+            break;
         }
     }
 }
