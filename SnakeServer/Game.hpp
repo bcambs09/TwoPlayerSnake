@@ -19,7 +19,10 @@ public:
         ONGOING,
         P1_WIN,
         P2_WIN,
-        TIE
+        TIE,
+        READY3,
+        READY2,
+        READY1
     };
     
 private:

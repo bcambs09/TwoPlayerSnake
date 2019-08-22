@@ -32,8 +32,9 @@ void User::play() {
         pair<int, int> apple = client->getApple();
         board->addApple(apple.first, apple.second);
         board->printScore(client->getScore());
-        board->updateBoard();
         string status = client->getStatus();
+        board->printGameStatus(status);
+        board->updateBoard();
         if (status == "WIN") {
             board->youWin();
             usleep(3000000);

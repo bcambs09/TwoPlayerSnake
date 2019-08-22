@@ -163,7 +163,19 @@ string Game::getStatus(int playerNum) {
         case TIE:
             return "TIE";
             break;
+
+        case READY3:
+            return "READY3";
+            break;
             
+        case READY2:
+            return "READY2";
+            break;
+
+        case READY1:
+            return "READY1";
+            break;
+        
         default:
             break;
     }

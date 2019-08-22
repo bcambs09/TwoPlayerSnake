@@ -78,7 +78,22 @@ void Server::playGame() {
     lk.unlock();
     
     printf("Starting game.\n");
-    
+   
+    m.lock();
+    game->setStatus(Game::READY3);
+    m.unlock();
+    usleep(1000000);
+
+    m.lock();
+    game->setStatus(Game::READY2);
+    m.unlock();
+    usleep(1000000);
+
+    m.lock();
+    game->setStatus(Game::READY1);
+    m.unlock();
+    usleep(1000000);
+
     while(true) {
         // Sleep game thread to achieve specified FPS
         currTime = high_resolution_clock::now();

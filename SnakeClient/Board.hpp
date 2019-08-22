@@ -27,6 +27,9 @@ public:
     void youLose();
     void youTie();
     void printScore(int score);
+    void resetRow(int r, int c);
+    void printGameStatus(const std::string& status);
+    void printGameRules();
     int getDirection();
 };
 

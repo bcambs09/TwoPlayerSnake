@@ -69,7 +69,11 @@ void Board::addSnake(const std::string &str, char c){
     istringstream is(str);
     string x, y;
     while (getline(is, x, ' ') && getline(is, y, ' ')) {
-        setCoord(stoi(x), stoi(y), c);
+        int intX = stoi(x);
+        int intY = stoi(y);
+        if (intX < width && intY < height && intX >= 0 && intY >= 0) {
+            setCoord(intX, intY, c);
+        }
     }
 }
 
@@ -89,6 +93,33 @@ int Board::getDirection() {
         return 3;
     }
     return -1;
+}
+
+void Board::resetRow(int r, int c) {
+    for (int i = 0; i < width; ++i) {
+        setCoord(r, i, c);
+    }
+}
+
+void Board::printGameStatus(const string& status) {
+    resetRow(height+1, ' ');
+    if (status == "WIN" || status == "LOSE" || status == "TIE") {
+        mvprintw(height + 1, 0, "Game ended");
+    } else if (status == "WAITING") {
+        mvprintw(height + 1, 0, "Waiting for another player");
+    } else if (status == "ONGOING") {
+        mvprintw(height + 1, 0, "Game in progress");
+    } else if (status == "READY3") {
+        mvprintw(height + 1, 0, "Game starting in 3...");
+    } else if (status == "READY2") {
+        mvprintw(height + 1, 0, "Game starting in 2...");
+    } else if (status == "READY1") {
+        mvprintw(height + 1, 0, "Game starting in 1...");
+    }
+}
+
+void Board::printGameRules() {
+    
 }
 
 Board::~Board() {
